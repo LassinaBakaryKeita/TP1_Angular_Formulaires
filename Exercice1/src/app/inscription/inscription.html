@@ -1,0 +1,144 @@
+<div class="container d-flex justify-content-center align-items-start py-5" style="min-height: 100vh;">
+  <div class="card shadow-sm border p-4 w-100" style="max-width: 500px; background-color: #f7f9f2; border-color: #e7ebe0 !important; border-radius: 14px;">
+    
+    <h2 class="h5 fw-medium mb-4" style="color: #2b2b2b;">Inscription - Template Driven</h2>
+
+    <form #monForm="ngForm" (ngSubmit)="onSubmit(monForm)" novalidate>
+      <!-- Nom complet (obligatoire, min 3 caractères) -->
+      <div class="mb-3">
+        <label for="fullname" class="form-label fw-semibold text-secondary small">Nom Complet</label>
+        <input
+          type="text"
+          id="fullname"
+          name="fullname"
+          class="form-control"
+          [class.is-invalid]="nom.invalid && (nom.dirty || nom.touched)"
+          [class.is-valid]="nom.valid && (nom.dirty || nom.touched)"
+          [(ngModel)]="formData.fullname"
+          required
+          minlength="3"
+          #nom="ngModel"
+          placeholder="Entrez votre nom complet"
+        />
+        @if (nom.invalid && (nom.dirty || nom.touched)) {
+          <div class="invalid-feedback d-block">
+            @if (nom.errors?.['required']) {
+              Le nom complet est obligatoire.
+            }
+            @if (nom.errors?.['minlength']) {
+              Le nom complet doit comporter au moins 3 caractères.
+            }
+          </div>
+        }
+      </div>
+
+      <!-- Âge (obligatoire, au moins 18 ans) -->
+      <div class="mb-3">
+        <label for="age" class="form-label fw-semibold text-secondary small">Age</label>
+        <input
+          type="number"
+          id="age"
+          name="age"
+          class="form-control"
+          [class.is-invalid]="age.invalid && (age.dirty || age.touched)"
+          [class.is-valid]="age.valid && (age.dirty || age.touched)"
+          [(ngModel)]="formData.age"
+          required
+          min="18"
+          #age="ngModel"
+          placeholder="Ex: 25"
+        />
+        @if (age.invalid && (age.dirty || age.touched)) {
+          <div class="invalid-feedback d-block">
+            @if (age.errors?.['required']) {
+              L'âge est obligatoire.
+            }
+            @if (age.errors?.['min']) {
+              L'utilisateur doit avoir au moins 18 ans.
+            }
+          </div>
+        }
+      </div>
+
+      <!-- Pays (liste déroulante obligatoire) -->
+      <div class="mb-3">
+        <label for="country" class="form-label fw-semibold text-secondary small">Pays</label>
+        <select
+          id="country"
+          name="country"
+          class="form-select"
+          [class.is-invalid]="pays.invalid && (pays.dirty || pays.touched)"
+          [class.is-valid]="pays.valid && (pays.dirty || pays.touched)"
+          [(ngModel)]="formData.country"
+          required
+          #pays="ngModel"
+        >
+          <option value="" disabled selected>Sélectionner un pays</option>
+          @for (c of countries; track c.value) {
+            <option [value]="c.value">{{ c.label }}</option>
+          }
+        </select>
+        @if (pays.invalid && (pays.dirty || pays.touched)) {
+          <div class="invalid-feedback d-block">
+            Le choix du pays est obligatoire.
+          </div>
+        }
+      </div>
+
+      <!-- Email (obligatoire, format email valide) -->
+      <div class="mb-4">
+        <label for="email" class="form-label fw-semibold text-secondary small">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          class="form-control"
+          [class.is-invalid]="email.invalid && (email.dirty || email.touched)"
+          [class.is-valid]="email.valid && (email.dirty || email.touched)"
+          [(ngModel)]="formData.email"
+          required
+          email
+          #email="ngModel"
+          placeholder="exemple@email.com"
+        />
+        @if (email.invalid && (email.dirty || email.touched)) {
+          <div class="invalid-feedback d-block">
+            @if (email.errors?.['required']) {
+              L'adresse email est obligatoire.
+            }
+            @if (email.errors?.['email']) {
+              Format email invalide.
+            }
+          </div>
+        }
+      </div>
+
+      <!-- Bouton « S'inscrire » désactivé tant que le formulaire n'est pas valide -->
+      <div class="d-flex justify-content-center mb-3">
+        <button
+          type="submit"
+          class="btn rounded-pill px-5 fw-medium shadow-none"
+          [style.background-color]="monForm.valid ? '#e5ecd8' : '#e2e5df'"
+          [style.color]="monForm.valid ? '#3b6b30' : '#a0a59e'"
+          [style.cursor]="monForm.valid ? 'pointer' : 'not-allowed'"
+          [disabled]="!monForm.valid"
+        >
+          S'inscrire
+        </button>
+      </div>
+    </form>
+
+    <!-- Récapitulatif affiché sous le formulaire après validation -->
+    @if (isSubmitted && submittedData) {
+      <div class="mt-4 p-3 rounded-3 text-white shadow-sm" style="background-color: #2ecb71;">
+        <div class="fw-bold mb-2 fs-6">Inscription réussie !</div>
+        <pre class="m-0 p-3 rounded text-white font-monospace" style="background-color: #27ae60; font-size: 0.9rem; white-space: pre-wrap;">&#123;
+  "fullname": "{{ submittedData.fullname }}",
+  "age": {{ submittedData.age }},
+  "country": "{{ submittedData.country }}",
+  "email": "{{ submittedData.email }}"
+&#125;</pre>
+      </div>
+    }
+  </div>
+</div>
