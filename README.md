@@ -26,12 +26,8 @@ TP1/
 
 Bien que les deux approches aboutissent au même résultat fonctionnel (comme illustré dans les exercices 1 et 2), elles reposent sur des architectures opposées :
 
-| Critère | Template-Driven Forms (Exercice 1)
-
- | Reactive Forms (Exercice 2)
-
- |
-| --- | --- | --- |
+| Critère | Template-Driven Forms (Exercice 1) | Reactive Forms (Exercice 2) |
+| :--- | :--- | :--- |
 | **Source de vérité** | Le **template HTML** : Angular génère implicitement les contrôles via la directive `ngModel`. | Le **composant TypeScript** : le développeur instancie explicitement `FormGroup` et `FormControl`. |
 | **Flux de données** | **Asynchrone** : la mise à jour du modèle passe par le cycle de détection de changements du DOM. | **Synchrone et prévisible** : accès immédiat à l'état et aux valeurs du formulaire côté code. |
 | **Règles de validation** | Déclaratives via des **attributs HTML** (`required`, `minlength`, `email`). | Programmatiques via des **fonctions validateurs** (`Validators.required`, etc.) composables en TypeScript. |
